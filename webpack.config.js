@@ -10,7 +10,7 @@ const config = {
 	devtool: 'inline-source-map',
 	devServer: {
 		publicPath: '/dist/',
-		historyApiFallback: true 
+		historyApiFallback: true
 	},
 	output: {
 		path: path.resolve(__dirname, 'dist'),
@@ -26,7 +26,7 @@ const config = {
 			{ test: /\.scss$/,
 				include: [path.resolve(__dirname, 'src/scss')],
 				use: extractSass.extract({
-					use: [{ loader: 'css-loader' }, { loader: 'sass-loader' }],
+					use: [{ loader: 'css-loader' },  {loader: 'postcss-loader'}, { loader: 'sass-loader' }],
 					// use style-loader in development
 					fallback: 'style-loader'
 				})
