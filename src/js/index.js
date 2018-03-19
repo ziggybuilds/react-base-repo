@@ -1,6 +1,6 @@
 import styles from "../scss/style.scss";
 
-// Page functionality
+// Encode and insert share url functionality
 function urlEncode() {
 	const encodedUrl = encodeURIComponent(window.location.href);
 
