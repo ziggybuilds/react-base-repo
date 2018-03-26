@@ -1,25 +1,39 @@
 const path = require('path');
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
+const webpack = require('webpack');
 
 const extractSass = new ExtractTextPlugin({
 	filename: 'style.css'
 });
 
 const config = {
-	entry: './src/js/index.js',
+	entry: [
+		'babel-polyfill',
+		'./src/js/Index.jsx'
+	],
 	devtool: 'inline-source-map',
 	devServer: {
 		publicPath: '/dist/',
-		historyApiFallback: true
+		historyApiFallback: true,
+		hot: true
 	},
 	output: {
 		path: path.resolve(__dirname, 'dist'),
 		filename: 'bundle.js',
 		publicPath: '/dist/',
 	},
+	resolve: {
+		extensions: ['*', '.js', '.jsx', '.json']
+	},
 	module: {
 		rules: [
-			{ test: /\.js$/, 
+			{
+				enforce: 'pre',
+				test: /.js|jsx$/,
+				loader: 'eslint-loader',
+				exclude: /node_modules/
+			},
+			{ test: /\.js|jsx$/, 
 				include: [path.resolve(__dirname, 'src/js')],
 				use: 'babel-loader', exclude: /node_modules/
 			},
@@ -34,7 +48,7 @@ const config = {
 		]
 	},
 	plugins: [
-		extractSass
+		extractSass, new webpack.HotModuleReplacementPlugin(), new webpack.NamedModulesPlugin()
 	]
 };
 
